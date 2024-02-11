@@ -27,72 +27,48 @@
     <script src="./js/Record3DVideo.js"></script>
 
     <script>
-        // Function to fetch the MP4 file from a URL and convert it into a Blob
-        async function loadMP4AsBlob(url) {
+        async function loadFileAsBlob(url) {
             try {
-                // Fetch the MP4 file
                 const response = await fetch(url);
 
-                // Check if the request was successful (status code 200)
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch MP4 file. Status: ${response.status}`);
+                    throw new Error(`Failed to fetch file. Status: ${response.status}`);
                 }
 
-                // Convert the response into a Blob
                 const blob = await response.blob();
                 
-                // Use the Blob as needed (e.g., display or further processing)
                 console.log("Blob loaded successfully:", blob);
 
                 return blob;
             } catch (error) {
-                console.error("Error loading MP4 file:", error);
+                console.error("Error loading file:", error);
                 throw error;
             }
         }
 
-        // Example usage
-        const mp4Url = "./files/record3d_goat.mp4";
+        const url = "./files/record3d_goat.mp4";
 
-        loadMP4AsBlob(mp4Url).then((blob) => {
-            // Do something with the Blob, for example, create a video element
+        loadFileAsBlob(url).then((blob) => {            
+            /*
+            // example usage
             const videoElement = document.createElement('video');
             videoElement.src = URL.createObjectURL(blob);
             videoElement.controls = true;
             document.body.appendChild(videoElement);
+            */
+            onOfflineVideoPassed(blob);
         }).catch((error) => {
-            // Handle errors
             console.error("Error:", error);
         });
 
-        /*
-        // Setup offline video loading
-        let offlinePlaybackForm = document.getElementById('input-mp4-file');
-        offlinePlaybackForm.onchange = (e) => {
-            e.preventDefault();
-            let mp4File = document.getElementById('input-mp4-file').files[0];
-            onOfflineVideoPassed(mp4File);
-        };
-
-        offlinePlaybackForm.ondrop = (e) => {
-            e.preventDefault();
-            let mp4File = e.dataTransfer.files[0];
-            onOfflineVideoPassed(mp4File);
-        };
-
         function onOfflineVideoPassed(mp4File) {
-            document.getElementById('landing-page').remove();
-
-            // Setup a Wi-Fi streamed video
             let offlineVideo = new OfflineVideoSource();
             offlineVideo.load(mp4File);
 
-            // Setup the scene
             let scene = new Record3DScene(60, 1e-3, 100);
             scene.runloop();
             scene.addVideo(new Record3DVideo(offlineVideo));
         }
-        */
     </script>
 </body>
 </html>
