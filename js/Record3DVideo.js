@@ -47,7 +47,8 @@ class Record3DVideo
 
         let newVideoWidth = videoSource.videoTag.videoWidth;
         let newVideoHeight = videoSource.videoTag.videoHeight;
-        this.material.uniforms.texSize.value = [newVideoWidth, newVideoHeight];
+        let texSize = [newVideoWidth, newVideoHeight]
+        this.material.uniforms.texSize.value = texSize;
         this.material.uniforms.texImg.value = this.videoTexture;
 
         let intrinsicMatrix = videoSource.intrMat;
@@ -55,9 +56,10 @@ class Record3DVideo
         let ify = 1.0 / intrinsicMatrix.elements[4];
         let itx = -intrinsicMatrix.elements[2] / intrinsicMatrix.elements[0];
         let ity = -intrinsicMatrix.elements[5] / intrinsicMatrix.elements[4];
-
-        this.material.uniforms.iK.value = [ifx, ify, itx, ity];
-
+        let iK = [ifx, ify, itx, ity];
+        this.material.uniforms.iK.value = iK;
+        
+        console.log("texSize: " + texSize + ", " + "iK: " + iK);
         this.switchRenderingTo(this.renderingMode)
     }
 
